@@ -12,9 +12,9 @@ export async function fetchPaymentHistories(searchQuery) {
       page: 1,
       keyword: searchQuery || ""
     }
-  });
+  })
 
-  return data;
+  return data
 }
 
 export async function fetchPaymentDetails(hash) {
@@ -22,15 +22,23 @@ export async function fetchPaymentDetails(hash) {
     data
   } = await apiClientRequest.get(
     `substrate/orders/${hash}`
-  );
+  )
 
-  return data;
+  return data
 }
 
 export async function fetchBountyLists(hash) {
   const { data: { data } } = await apiClientRequest.get(
     `substrate/orders/bounty_list/${hash}`
-  );
+  )
 
-  return data;
+  return data
+}
+
+export async function fetchTxHashOrder(orderId) {
+  const { data: { data } } = await apiClientRequest.get("transaction/hash", {
+    params: { order_id: orderId }
+  })
+
+  return data
 }

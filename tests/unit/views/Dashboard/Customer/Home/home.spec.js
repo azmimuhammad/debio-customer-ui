@@ -1,4 +1,4 @@
-import { config, shallowMount, createLocalVue } from "@vue/test-utils"
+import { config, shallowMount } from "@vue/test-utils"
 import Banner from "@/common/components/Banner"
 import Card from "@/common/components/Card"
 import Icon from "@/common/components/Icon"
@@ -140,7 +140,6 @@ config.stubs["ui-debio-icon"] = { template: "<div></div>"}
 
 Vue.use(Vuetify)
 Vue.use(Vuex)
-let localVue = createLocalVue()
 let vuetify
 let router
 let store = new Vuex.Store({
@@ -163,7 +162,6 @@ describe("Home Page customer", () => {
   const stubs = { Banner, Card, Icon, DataTable }
   beforeEach(() => {
     const nodeCrypto = require("crypto")
-    localVue 
     vuetify = new Vuetify()
     router = new VueRouter()
 

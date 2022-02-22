@@ -77,12 +77,18 @@
                         .reward__popup-text You will get the reward after your request test from requested service is completed/fulfilled
                   .service__field-colon :
                   .service__field-value - DBIO
+            Button.payment-details__etherscan-link(
+              color="secondary"
+              @click="handleViewEtherscan"
+              outlined
+              block
+            ) VIEW ON ETHERSCAN
 
 </template>
 
 <script>
 import { alertIcon } from "@/common/icons"
-import { fetchPaymentDetails } from "@/common/lib/api";
+import { fetchPaymentDetails, fetchTxHashOrder } from "@/common/lib/api";
 import { getRatingService } from "@/common/lib/api"
 import { queryDnaSamples } from "@/common/lib/polkadot-provider/query/genetic-testing"
 import { mapState } from "vuex"
@@ -193,6 +199,19 @@ export default {
 
     formatPrice(price) {
       return this.web3.utils.fromWei(String(price.replaceAll(",", "")), "ether")
+    },
+
+    async handleViewEtherscan() {
+      const anchor = document.createElement("a")
+      const orderId = this.payment?.id
+      const { transaction_hash } = await fetchTxHashOrder(orderId)
+
+      // NOTE: Use anchor tag with "noreferrer noopener" for security
+      // eslint-disable-next-line camelcase
+      anchor.href = `https://rinkeby.etherscan.io/tx/${transaction_hash}`
+      anchor.target = "_blank"
+      anchor.rel = "noreferrer noopener"
+      anchor.click()
     }
   }
 }
@@ -200,6 +219,7 @@ export default {
 
 <style lang="sass" scoped>
   @import "@/common/styles/mixins.sass"
+  @import "@/common/styles/function.sass"
 
   .payment-history-details
     &__title
@@ -244,6 +264,9 @@ export default {
       cursor: pointer
       text-decoration: underline
       color: #A568FF
+
+    &__etherscan-link
+      margin-top: toRem(30px)
 
   .product
     &__details
